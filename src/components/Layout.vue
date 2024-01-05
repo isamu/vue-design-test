@@ -21,7 +21,6 @@
         </div>
       </div>
     </div>
-    <Languages class="mt-4" />
   </div>
 </template>
 
@@ -34,7 +33,6 @@ import { User } from "firebase/auth";
 import { useI18nParam } from "@/i18n/utils";
 import { useStore } from "@/store/index";
 
-import Languages from "@/components/Languages.vue";
 import MenuList from "@/components/MenuList.vue";
 interface UserData {
   user: User | null;
@@ -43,7 +41,6 @@ interface UserData {
 export default defineComponent({
   name: "AppLayout",
   components: {
-    Languages,
     MenuList,
   },
   async setup() {
