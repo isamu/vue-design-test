@@ -9,7 +9,11 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
+    permissions:
+      actions: write
+      checks: write
+      contents: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,4 +36,4 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./dist
