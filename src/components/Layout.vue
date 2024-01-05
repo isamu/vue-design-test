@@ -16,7 +16,7 @@
             </div>
           </div>
         </div>
-        <div class="top-0 w-full sm:relative">
+        <div class="top-0 w-full sm:relative" ref="root">
           <router-view />
         </div>
       </div>
@@ -48,7 +48,8 @@ export default defineComponent({
     const user = reactive<UserData>({ user: null });
 
     const menu = ref(false);
-
+    const root = ref();
+    
     useI18nParam();
 
     onMounted(() => {
@@ -71,6 +72,7 @@ export default defineComponent({
 
       menu,
       toggleMenu,
+      root,
     };
   },
 });

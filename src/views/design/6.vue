@@ -1,6 +1,7 @@
 <template>
+<main ref="main"  id="main">
   <div class="h-screen overflow-y-scroll scroll-container">
-    <div ref="main" class="sticky top-0 h-[100vh] snap-start snap-always">
+    <div class="sticky top-0 h-[100vh] snap-start snap-always" ref="page1"  id="page1">
       page 1
       {{ top }}
     </div>
@@ -22,6 +23,7 @@
       {{ top }}
     </div>
   </div>
+</main>
 </template>
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
@@ -30,21 +32,38 @@ export default defineComponent({
   components: {},
   setup() {
     const main = ref();
+    const page1 = ref();
+
     const top = ref(0);
+    const currentPage = ref(0);
+
     const showScrollTop = () => {
       console.log("AA");
       console.log(window.scrollY);
       console.log(main.value);
+
+      const pageHeight = page1.value.getBoundingClientRect().height;
+      const pageTop = - main.value.getBoundingClientRect().top;
+      currentPage.value = Math.floor(pageTop / pageHeight);
+
+      const posInPage = Math.floor(pageTop % pageHeight);
+      const pageRatio = Math.floor(100 * posInPage / pageHeight)
+      console.log(pageTop, pageHeight, currentPage.value, pageRatio);
+
       top.value = window.scrollY;
     };
 
     onMounted(() => {
-      window.addEventListener("scroll", showScrollTop, { passive: true });
+      console.log("DDD");
+      window.addEventListener("scroll", showScrollTop);
+      console.log(main.value);
+      page1.value.addEventListener("scroll", showScrollTop);
     });
 
     return {
       main,
       top,
+      page1,
     };
   },
 });
