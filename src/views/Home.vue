@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <router-link to="/design/1">1</router-link>
+    <router-link to="./design/1">1</router-link>
     <div class="w-[150px]">
       <blockquote class="twitter-tweet">
         <p lang="en" dir="ltr">
