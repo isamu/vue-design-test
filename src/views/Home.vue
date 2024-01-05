@@ -1,30 +1,23 @@
 <template>
   <div class="home">
-    <div class="flex items-center justify-center space-x-8">
-      <!-- Use Tailwind CSS h-40 (=10rem=160px) instead of .logo. -->
-      <img alt="Firebase logo" src="../assets/firebase.svg" class="h-40 object-contain" />
-
-      <!-- Use Tailwind CSS h-40 (=10rem=160px) instead of .logo. -->
-      <img alt="Vue logo" src="../assets/logo.png" class="h-40" />
-
-      <svg class="text-tailwindcss-logo-mark w-40 fill-current" viewBox="0 0 50 32">
-        <path
-          d="M25.517 0C18.712 0 14.46 3.382 12.758 10.146c2.552-3.382 5.529-4.65 8.931-3.805 1.941.482 3.329 1.882 4.864 3.432 2.502 2.524 5.398 5.445 11.722 5.445 6.804 0 11.057-3.382 12.758-10.145-2.551 3.382-5.528 4.65-8.93 3.804-1.942-.482-3.33-1.882-4.865-3.431C34.736 2.92 31.841 0 25.517 0zM12.758 15.218C5.954 15.218 1.701 18.6 0 25.364c2.552-3.382 5.529-4.65 8.93-3.805 1.942.482 3.33 1.882 4.865 3.432 2.502 2.524 5.397 5.445 11.722 5.445 6.804 0 11.057-3.381 12.758-10.145-2.552 3.382-5.529 4.65-8.931 3.805-1.941-.483-3.329-1.883-4.864-3.432-2.502-2.524-5.398-5.446-11.722-5.446z"
-        />
-      </svg>
+    <router-link to="/design/1">1</router-link>
+    <div class="w-[150px]">
+      <blockquote class="twitter-tweet">
+        <p lang="en" dir="ltr">
+          Make super cool swipe-over sections like Apple in pure CSS!<br /><br />Try it in code: <a href="https://t.co/OUvhtQK5IP">https://t.co/OUvhtQK5IP</a
+          ><br />Try it in <a href="https://twitter.com/builderio?ref_src=twsrc%5Etfw">@builderio</a>:
+          <a href="https://t.co/5RMA37TdIr">https://t.co/5RMA37TdIr</a> <a href="https://t.co/lOiUdFeHx1">pic.twitter.com/lOiUdFeHx1</a>
+        </p>
+        &mdash; Steve (Builder.io) (@Steve8708) <a href="https://twitter.com/Steve8708/status/1540794691309805569?ref_src=twsrc%5Etfw">June 25, 2022</a>
+      </blockquote>
     </div>
-    <HelloWorld />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
 
 export default defineComponent({
-  name: "HomePage",
-  components: {
-    HelloWorld,
-  },
+  components: {},
 });
 </script>

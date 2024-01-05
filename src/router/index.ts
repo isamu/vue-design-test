@@ -8,6 +8,9 @@ import Account from "@/views/Account.vue";
 import About from "@/views/About.vue";
 import MyPage from "@/views/MyPage.vue";
 
+import Design1 from "@/views/design/1.vue";
+import Design2 from "@/views/design/2.vue";
+
 const routeChildren: Array<RouteRecordRaw> = [
   {
     path: "",
@@ -24,6 +27,14 @@ const routeChildren: Array<RouteRecordRaw> = [
   {
     path: "mypage",
     component: MyPage,
+  },
+  {
+    path: "design/1",
+    component: Design1,
+  },
+  {
+    path: "design/2",
+    component: Design2,
   },
 ];
 
