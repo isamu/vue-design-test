@@ -11,6 +11,9 @@ import MyPage from "@/views/MyPage.vue";
 import Design1 from "@/views/design/1.vue";
 import Design2 from "@/views/design/2.vue";
 import Design3 from "@/views/design/3.vue";
+import Design4 from "@/views/design/4.vue";
+import Design5 from "@/views/design/5.vue";
+import Design6 from "@/views/design/6.vue";
 
 const routeChildren: Array<RouteRecordRaw> = [
   {
@@ -40,6 +43,18 @@ const routeChildren: Array<RouteRecordRaw> = [
   {
     path: "design/3",
     component: Design3,
+  },
+  {
+    path: "design/4",
+    component: Design4,
+  },
+  {
+    path: "design/5",
+    component: Design5,
+  },
+  {
+    path: "design/6",
+    component: Design6,
   },
 ];
 

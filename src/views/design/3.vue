@@ -1,19 +1,19 @@
 <template>
-<div class="flex overflow-auto container">
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-  <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
-</div>
+  <div class="flex overflow-auto container">
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+    <div class="w-[200px] h-[200px] bg-red-500 mr-2 shrink-0 snap-start"></div>
+  </div>
 </template>
 
 <script>
@@ -24,5 +24,4 @@
 .container {
   scroll-snap-type: x mandatory;
 }
-
 </style>
