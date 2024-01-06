@@ -1,29 +1,29 @@
 <template>
-<main ref="main"  id="main">
-  <div class="h-screen overflow-y-scroll scroll-container">
-    <div class="sticky top-0 h-[100vh] snap-start snap-always" ref="page1"  id="page1">
-      page 1
-      {{ top }}
-    </div>
-    <div class="sticky top-0 bg-black h-[100vh] snap-start snap-always">
-      page 2
-      {{ top }}
-    </div>
+  <main ref="main" id="main">
+    <div class="h-screen overflow-y-scroll scroll-container">
+      <div class="sticky top-0 h-[100vh] snap-start snap-always" ref="page1" id="page1">
+        page 1
+        {{ top }}
+      </div>
+      <div class="sticky top-0 bg-black h-[100vh] snap-start snap-always">
+        page 2
+        {{ top }}
+      </div>
 
-    <div class="sticky top-0 bg-pink-400 h-[100vh] snap-start snap-always">
-      page 3
-      {{ top }}
+      <div class="sticky top-0 bg-pink-400 h-[100vh] snap-start snap-always">
+        page 3
+        {{ top }}
+      </div>
+      <div class="bg-white relative h-[100vh] snap-start snap-always">
+        page 4
+        {{ top }}
+      </div>
+      <div class="bg-white relative h-[100vh] snap-start snap-always">
+        page 5
+        {{ top }}
+      </div>
     </div>
-    <div class="bg-white relative h-[100vh] snap-start snap-always">
-      page 4
-      {{ top }}
-    </div>
-    <div class="bg-white relative h-[100vh] snap-start snap-always">
-      page 5
-      {{ top }}
-    </div>
-  </div>
-</main>
+  </main>
 </template>
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
@@ -43,11 +43,11 @@ export default defineComponent({
       console.log(main.value);
 
       const pageHeight = page1.value.getBoundingClientRect().height;
-      const pageTop = - main.value.getBoundingClientRect().top;
+      const pageTop = -main.value.getBoundingClientRect().top;
       currentPage.value = Math.floor(pageTop / pageHeight);
 
       const posInPage = Math.floor(pageTop % pageHeight);
-      const pageRatio = Math.floor(100 * posInPage / pageHeight)
+      const pageRatio = Math.floor((100 * posInPage) / pageHeight);
       console.log(pageTop, pageHeight, currentPage.value, pageRatio);
 
       top.value = window.scrollY;

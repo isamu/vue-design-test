@@ -14,6 +14,7 @@ import Design3 from "@/views/design/3.vue";
 import Design4 from "@/views/design/4.vue";
 import Design5 from "@/views/design/5.vue";
 import Design6 from "@/views/design/6.vue";
+import Design7 from "@/views/design/7.vue";
 
 const routeChildren: Array<RouteRecordRaw> = [
   {
@@ -55,6 +56,10 @@ const routeChildren: Array<RouteRecordRaw> = [
   {
     path: "design/6",
     component: Design6,
+  },
+  {
+    path: "design/7",
+    component: Design7,
   },
 ];
 

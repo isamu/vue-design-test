@@ -15,6 +15,7 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": "error",
     "no-unreachable": "error",
     "vue/multi-word-component-names": "off",
+    "vue/attribute-hyphenation": "off",
     "sonarjs/cognitive-complexity": "error",
     "sonarjs/no-duplicate-string": "error",
     "sonarjs/elseif-without-else": "error",

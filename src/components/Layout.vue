@@ -49,7 +49,7 @@ export default defineComponent({
 
     const menu = ref(false);
     const root = ref();
-    
+
     useI18nParam();
 
     onMounted(() => {
