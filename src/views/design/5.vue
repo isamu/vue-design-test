@@ -1,7 +1,7 @@
 <template>
   <div class="h-[500vh]" ref="main" id="main">
     <div class="sticky top-0 h-[100vh]" ref="page1">
-      <img src="/a.jpg" :style="style1" />
+      <img src="./a.jpg" :style="style1" />
       {{ scrollTopPosition }}
     </div>
     <div class="sticky top-0 bg-black h-[100vh]" :style="style2">
@@ -16,7 +16,7 @@
     <div class="bg-white relative h-[100vh]">
       page 4
       {{ scrollTopPosition }}
-      <img src="/a.jpg" :style="style4" class="w-2/4"/>
+      <img src="./a.jpg" :style="style4" class="w-2/4"/>
     </div>
     <div class="bg-white relative h-[100vh]">
       page 5
