@@ -11,7 +11,6 @@ export default defineComponent({
   name: "PageSet",
   setup(_, ctx) {
     const main = ref();
-    const child = ref();
 
     const currentPage = ref(0);
     const posInPage = ref(0);
@@ -42,8 +41,10 @@ export default defineComponent({
 
     return {
       main,
-      child,
-      currentPage,
+
+      currentPage, // Page.vue
+      pageRatio,
+
       className,
     };
   },
