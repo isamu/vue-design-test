@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, getCurrentInstance } from "vue";
+import { defineComponent, inject } from "vue";
 import { useStyle } from "./useStyle";
 
 export default defineComponent({
@@ -19,11 +19,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const instance = getCurrentInstance();
-
-    const pageRatio = computed(() => {
-      return instance.parent.ctx.pageRatio;
-    });
+    const pageRatio = inject("myPageRatio");
     const { style } = useStyle(pageRatio, props.animatedStyle);
 
     return {

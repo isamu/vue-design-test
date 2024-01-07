@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, getCurrentInstance, onMounted } from "vue";
+import { defineComponent, ref, getCurrentInstance, onMounted, provide } from "vue";
 
 export default defineComponent({
   name: "PageSet",
@@ -19,6 +19,9 @@ export default defineComponent({
     const slot = ctx.slots.default();
     const className = "h-[" + slot.length + "00vh]";
 
+    provide("currentPage", currentPage);
+    provide("pageRatio", pageRatio);
+
     const showScrollTop = () => {
       const pageHeight = main.value.getBoundingClientRect().height / slot.length;
       const pageTop = -main.value.getBoundingClientRect().top;
@@ -26,7 +29,7 @@ export default defineComponent({
 
       posInPage.value = Math.floor(pageTop % pageHeight);
       pageRatio.value = (100 * posInPage.value) / pageHeight;
-      console.log(pageTop, pageHeight, currentPage.value, Math.floor(pageRatio.value));
+      // console.log(pageTop, pageHeight, currentPage.value, Math.floor(pageRatio.value));
     };
 
     onMounted(() => {
@@ -36,7 +39,7 @@ export default defineComponent({
         a.dataset["index"] = k;
       });
 
-      window.addEventListener("scroll", showScrollTop, { passive: true });
+      window.addEventListener("scroll", showScrollTop);
     });
 
     return {
