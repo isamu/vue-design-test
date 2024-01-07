@@ -4,7 +4,7 @@
       <pageElement> base page </pageElement>
     </Page>
     <Page :sticky="true">
-      <PageElement :animatedStyle="style1" class="w-30 m-auto">
+      <PageElement :animatedStyle="{ width: 100 }" class="w-30 m-auto">
         <img src="/a.jpg" class="w-full" />
       </PageElement>
     </Page>
@@ -14,6 +14,25 @@
     <Page class="bg-black">
       <pageElement> 3 </pageElement>
     </Page>
+    <Page class="bg-red-200" :sticky="true">
+      <pageElement> 2 </pageElement>
+    </Page>
+    <Page :sticky="true">
+      <PageElement :animatedStyle="style3" class="w-1/4 m-auto">
+        <img src="/a.jpg" class="w-full" />
+      </PageElement>
+    </Page>
+    <Page :sticky="true">
+      <PageElement :animatedStyle="style3" class="w-1/4 m-auto h-[100vh]">
+        <img src="/a.jpg" class="w-full" />
+      </PageElement>
+    </Page>
+    <Page :sticky="true">
+      <PageElement :animatedStyle="style5" class="relative">
+        <div class="relative text-left text-8xl">Hello World</div>
+      </PageElement>
+    </Page>
+    <Page :sticky="true"> </Page>
   </PageSet>
 </template>
 
@@ -35,10 +54,14 @@ export default defineComponent({
   },
   setup() {
     return {
-      style1: {
-        width: 100,
-      },
       style2: {
+        opacity: 100,
+      },
+      style3: {
+        rotate: 5,
+      },
+      style5: {
+        left: 70,
         opacity: 100,
       },
     };
