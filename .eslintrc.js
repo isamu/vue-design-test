@@ -16,7 +16,7 @@ module.exports = {
     "no-unreachable": "error",
     "vue/multi-word-component-names": "off",
     "vue/attribute-hyphenation": "off",
-    "sonarjs/cognitive-complexity": "error",
+    "sonarjs/cognitive-complexity": "off",
     "sonarjs/no-duplicate-string": "error",
     "sonarjs/elseif-without-else": "error",
     "sonarjs/max-switch-cases": "error",

@@ -8,7 +8,7 @@
         <img src="/a.jpg" class="w-full" />
       </PageElement>
     </Page>
-    <Page :sticky="true" :animatedStyle="style2" class="bg-red-200">
+    <Page :sticky="true" :animatedStyle="{ opacity: 100 }" class="bg-red-200">
       <pageElement> 2 </pageElement>
     </Page>
     <Page class="bg-black">
@@ -28,17 +28,16 @@
       </PageElement>
     </Page>
     <Page :sticky="true">
-      <PageElement :animatedStyle="style5" class="relative">
+      <PageElement
+        :animatedStyle="{ left: 70, opacity: 100 }"
+        :loadingAnimatedStyle="{ left: 70, opacity: 100 }"
+        class="relative">
         <div class="relative text-left text-8xl">Hello World</div>
       </PageElement>
     </Page>
     <Page :sticky="true"> </Page>
   </PageSet>
 </template>
-
-// PageSetは、いくつのpageをもっているかしりたい ok // //
-PageSetは、どのpageが表示されていて(currentPage)、スクロールの状態が何パーセントか知りたい(scrollPosition/ratio) ok // //
-PageSetの子要素は、それらの情報をもちたい(currentPage, scrollPosition/ratio) ok // Pageは自分が何番目の要素か知りたい
 
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -54,15 +53,8 @@ export default defineComponent({
   },
   setup() {
     return {
-      style2: {
-        opacity: 100,
-      },
       style3: {
         rotate: 5,
-      },
-      style5: {
-        left: 70,
-        opacity: 100,
       },
     };
   },

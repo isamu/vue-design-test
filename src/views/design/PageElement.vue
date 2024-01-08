@@ -17,10 +17,17 @@ export default defineComponent({
         return {};
       },
     },
+    loadingAnimatedStyle: {
+      type: Object, // todo type
+      default: () => {
+        return {};
+      },
+    },
   },
   setup(props) {
     const pageRatio = inject("myPageRatio");
-    const { style } = useStyle(pageRatio, props.animatedStyle);
+    const myLoadingPageRatio = inject("myLoadingPageRatio");
+    const { style } = useStyle(pageRatio, myLoadingPageRatio, props.animatedStyle, props.loadingAnimatedStyle);
 
     return {
       style,

@@ -18,6 +18,12 @@ export default defineComponent({
         return {};
       },
     },
+    loadingAnimatedStyle: {
+      type: Object, // todo type
+      default: () => {
+        return {};
+      },
+    },
     sticky: {
       type: Boolean,
       default: false,
@@ -35,6 +41,10 @@ export default defineComponent({
     const currentPage = inject("currentPage");
     const __pageRatio = inject("pageRatio");
 
+    const isLoadingMyPage = computed(() => {
+      return myPageNumber.value !== 0 && ((myPageNumber.value - 1) === currentPage.value);
+    });
+    
     const isMyPage = computed(() => {
       return myPageNumber.value === currentPage.value;
     });
@@ -48,9 +58,19 @@ export default defineComponent({
       }
       return 100;
     });
+    const loadingPageRatio = computed(() => {
+      if (isLoadingMyPage.value) {
+        return __pageRatio.value || 0;
+      }
+      if (myPageNumber.value > (currentPage.value - 1)) {
+        return 0;
+      }
+      return 100;
+    });
     provide("myPageRatio", pageRatio);
+    provide("myLoadingPageRatio", loadingPageRatio);
 
-    const { style } = useStyle(pageRatio, props.animatedStyle);
+    const { style } = useStyle(pageRatio, loadingPageRatio, props.animatedStyle, props.loadingAnimatedStyle);
 
     const classNames = props.sticky ? "sticky" : "relative";
 
@@ -62,6 +82,9 @@ export default defineComponent({
       myPageNumber,
       page,
 
+      isLoadingMyPage,
+      loadingPageRatio,
+      
       style,
       classNames,
     };
