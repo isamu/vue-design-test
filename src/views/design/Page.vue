@@ -1,6 +1,6 @@
 <template>
   <div class="top-0 h-[100vh]" ref="page" :style="style" :class="classNames">
-    <span v-if="true"> {{ currentPage }} // {{ myPageNumber }} // {{ pageRatio }} </span>
+    <span v-if="false"> {{ currentPage }} // {{ myPageNumber }} // {{ pageRatio }} </span>
     <slot />
   </div>
 </template>
@@ -42,9 +42,9 @@ export default defineComponent({
     const __pageRatio = inject("pageRatio");
 
     const isLoadingMyPage = computed(() => {
-      return myPageNumber.value !== 0 && ((myPageNumber.value - 1) === currentPage.value);
+      return myPageNumber.value !== 0 && myPageNumber.value - 1 === currentPage.value;
     });
-    
+
     const isMyPage = computed(() => {
       return myPageNumber.value === currentPage.value;
     });
@@ -62,7 +62,7 @@ export default defineComponent({
       if (isLoadingMyPage.value) {
         return __pageRatio.value || 0;
       }
-      if (myPageNumber.value > (currentPage.value - 1)) {
+      if (myPageNumber.value > currentPage.value - 1) {
         return 0;
       }
       return 100;
@@ -84,7 +84,7 @@ export default defineComponent({
 
       isLoadingMyPage,
       loadingPageRatio,
-      
+
       style,
       classNames,
     };

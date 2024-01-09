@@ -1,5 +1,17 @@
 import { ref, watch, ComputedRef } from "vue";
-import { AnimatedStyle } from "./type";
+import { AnimatedStyle, TypeData } from "./type";
+
+// data is 0 to 100
+// offset, limit
+const normalizedData = (data: TypeData<number>, ratio: number) => {
+  if (typeof data === "object" && data.from && data.to) {
+    const a = data.from;
+    const b = data.to;
+    return ((b - a) * ratio + 100 * a) / 100;
+  }
+  // a = data, b = 0
+  return ((100 - ratio) * (data as number)) / 100;
+};
 
 export const useStyle = (
   pageRatio: ComputedRef<number>,
@@ -11,15 +23,18 @@ export const useStyle = (
   watch(
     [pageRatio, loadingPageRatio],
     () => {
+      style.value = {};
       if (pageRatio.value > 0 && animatedStyle) {
         if (animatedStyle.width) {
-          style.value.width = pageRatio.value + "%";
+          // 0 to 100
+          style.value.width = normalizedData(animatedStyle.width, pageRatio.value) + "%";
         }
         if (animatedStyle.height) {
-          style.value.height = pageRatio.value + "%";
+          style.value.height = normalizedData(animatedStyle.height, pageRatio.value) + "%";
         }
-        if (animatedStyle.opacity) {
-          style.value.opacity = (100 - pageRatio.value) / 100;
+        if (animatedStyle.opacity !== undefined) {
+          // 0 to 1
+          style.value.opacity = normalizedData(animatedStyle.opacity, pageRatio.value) / 100;
         }
         if (animatedStyle.rotate) {
           style.value.transform = "rotate(" + pageRatio.value * 3.6 * animatedStyle.rotate + "deg)";
@@ -45,7 +60,6 @@ export const useStyle = (
           style.value.left = Math.floor((loadingAnimatedStyle.left * loadingPageRatio.value) / 100) + "%";
         }
       }
-      console.log(style.value);
     },
     { immediate: true },
   );

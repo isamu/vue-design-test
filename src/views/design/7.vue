@@ -1,7 +1,25 @@
 <template>
   <PageSet>
-    <Page class="bg-gray-200">
-      <pageElement> base page </pageElement>
+    <Page class="bg-gray-200" :sticky="true">
+      <pageElement class="m-auto" :animatedStyle="{ opacity: { from: 100, to: 50 }, width: { from: 100, to: 80 } }">
+        <img src="./mj.jpg" class="w-full" />
+      </pageElement>
+    </Page>
+    <Page :sticky="true">
+      <div>
+        <span class="text-4xl font-bold text-white"> Welcome to the era of spatial computing. </span>
+        <div class="top-0 w-full absolute videoWrapper">
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/o-0ygW-B_gI?autoplay=1&mute=1"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
     </Page>
     <Page :sticky="true">
       <PageElement :animatedStyle="{ width: 100 }" class="w-30 m-auto">
@@ -28,10 +46,7 @@
       </PageElement>
     </Page>
     <Page :sticky="true">
-      <PageElement
-        :animatedStyle="{ left: 70, opacity: 100 }"
-        :loadingAnimatedStyle="{ left: 70, opacity: 100 }"
-        class="relative">
+      <PageElement :animatedStyle="{ left: 70, opacity: 100 }" :loadingAnimatedStyle="{ left: 70, opacity: 100 }" class="relative">
         <div class="relative text-left text-8xl">Hello World</div>
       </PageElement>
     </Page>
@@ -60,3 +75,21 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+
+.videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
