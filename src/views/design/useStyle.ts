@@ -15,8 +15,9 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
     const b = data.to;
     return ((b - a) * ratio + 100 * a) / 100;
   }
+  return data as number;
   // a = data, b = 0
-  return ((100 - ratio) * (data as number)) / 100;
+  // return ((100 - ratio) * (data as number)) / 100;
 };
 //
 
@@ -37,7 +38,7 @@ const staticStyle = (styleData: any, key: string) => {
     style.transform = "rotate(" + 360 * styleData.rotate[key] + "deg)";
   }
   if (styleData.left) {
-    style.left = Math.floor(styleData.left) + "%";
+    style.left = Math.floor(styleData.left[key]) + "%";
   }
 
   return style;
@@ -60,7 +61,10 @@ const dynamicStyle = (styleData: any, key: string, pageRatio: number) => {
     style.transform = "rotate(" + pageRatio * 3.6 * styleData.rotate[key] + "deg)";
   }
   if (styleData.left) {
-    style.left = Math.floor((styleData.left[key] * pageRatio) / 100) + "%";
+    style.left = Math.floor(normalizedData(styleData.left[key], pageRatio)) + "%";
+  }
+  if (styleData.top) {
+    style.top = Math.floor(normalizedData(styleData.top[key], pageRatio)) + "%";
   }
   return style;
 };
@@ -71,14 +75,15 @@ export const useStyle = (normalizedStyleData: any, pageStatus: ComputedRef<numbe
     () => {
       style.value = {};
       if (pageStatus.value === PageIsBeforeLoading) {
-        style.value = staticStyle(normalizedStyleData, "beforeStyle");
+        style.value = dynamicStyle(normalizedStyleData, "beforeStyle", 100);
       } else if (pageStatus.value === PageIsLoading) {
         style.value = dynamicStyle(normalizedStyleData, "loadingAnimatedStyle", pageRatio.value);
       } else if (pageStatus.value === PageIsDisplayed) {
         style.value = dynamicStyle(normalizedStyleData, "animatedStyle", pageRatio.value);
+        console.log(normalizedStyleData);
       } else if (pageStatus.value === PageIsAfterDisplayed) {
-         style.value = staticStyle(normalizedStyleData, "afterStyle");
-       }
+        style.value = dynamicStyle(normalizedStyleData, "afterStyle", 100);
+      }
     },
     { immediate: true },
   );

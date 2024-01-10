@@ -7,10 +7,11 @@
     </Page>
     <Page :sticky="true">
       <div class="relative">
-        <PageElement class="top-0 w-full absolute"
-                     :loadingAnimatedStyle="{ opacity: { from: 50, to: 100 } }"
-                     :animatedStyle="{ opacity: { from: 100, to: 0 } }"
-                     >
+        <PageElement
+          class="top-0 w-full absolute"
+          :loadingAnimatedStyle="{ opacity: { from: 50, to: 100 } }"
+          :animatedStyle="{ opacity: { from: 100, to: 0 } }"
+        >
           <div class="videoWrapper">
             <iframe
               width="560"
@@ -44,7 +45,7 @@
         <img src="/a.jpg" class="w-full" />
       </PageElement>
     </Page>
-    <Page :sticky="true" :animatedStyle="{ opacity: 100 }" class="bg-gray-400">
+    <Page :sticky="true" :beforeStyle="{ opacity: 0 }" :animatedStyle="{ opacity: 100 }" class="bg-gray-400">
       <div class="absolute flex items-center justify-center text-center w-full h-[100vh]">
         <div class="m-auto">
           <span class="text-4xl font-bold text-white"> Second world. </span>
@@ -54,7 +55,7 @@
     <Page class="bg-black">
       <pageElement> 3 </pageElement>
     </Page>
-    <Page class="bg-red-200" :sticky="true">
+    <Page class="bg-gray-200" :sticky="true">
       <pageElement> 2 </pageElement>
     </Page>
     <Page :sticky="true">
@@ -68,11 +69,26 @@
       </PageElement>
     </Page>
     <Page :sticky="true">
-      <PageElement :animatedStyle="{ left: 70, opacity: 100 }" :loadingAnimatedStyle="{ left: 70, opacity: 100 }" class="relative">
+      <PageElement :animatedStyle="{ left: 70, opacity: 100 }" :loadingAnimatedStyle="{ left: 70, opacity: { from: 0, to: 100 } }" class="relative">
         <div class="relative text-left text-8xl">Hello World</div>
       </PageElement>
     </Page>
-    <Page :sticky="true"> </Page>
+    <Page :sticky="true" class="bg-gray-800">
+      <PageElement
+        v-for="(data, k) in startDataSet"
+        :key="k"
+        :beforeStyle="data.beforeStyle"
+        :animatedStyle="data.animatedStyle"
+        class="text-yellow-300 text-left"
+        :afterStyle="{ opacity: 0 }"
+      >
+        ☆
+      </PageElement>
+    </Page>
+    <Page> </Page>
+    <Page>
+      <div class="relative text-center text-white text-8xl">END</div>
+    </Page>
   </PageSet>
 </template>
 
@@ -89,7 +105,23 @@ export default defineComponent({
     PageElement,
   },
   setup() {
+    const startDataSet = [...Array(50).keys()].map(() => {
+      const startLeft = Math.round(Math.random() * 100);
+      const leftTo = Math.round(Math.random() * 100);
+
+      const startTop = Math.round(Math.random() * 20);
+      const topTo = Math.round(Math.random() * 20) + 80;
+
+      return {
+        beforeStyle: { left: startLeft },
+        animatedStyle: {
+          left: { from: startLeft, to: leftTo },
+          top: { from: startTop, to: topTo },
+        },
+      };
+    });
     return {
+      startDataSet,
       style3: {
         rotate: 5,
       },

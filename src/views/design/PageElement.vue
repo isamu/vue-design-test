@@ -1,5 +1,5 @@
 <template>
-  <div :style="style">
+  <div :style="style" class="relative">
     <slot />
   </div>
 </template>
@@ -38,7 +38,7 @@ export default defineComponent({
   },
   setup(props) {
     const normalizedStyleData = getNormalizedStyleData(props.beforeStyle, props.loadingAnimatedStyle, props.animatedStyle, props.afterStyle);
-
+    console.log(normalizedStyleData);
     const pageRatio = inject("pageRatio");
     const pageStatus = inject("pageStatus");
     const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio);
