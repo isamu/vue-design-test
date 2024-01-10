@@ -53,7 +53,7 @@ export default defineComponent({
       });
     });
     const currentPage = inject("currentPage");
-    const basePageRatio = inject("pageRatio");
+    const pageRatio = inject("pageRatio");
 
     const normalizedStyleData = getNormalizedStyleData(props.beforeStyle, props.loadingAnimatedStyle, props.animatedStyle, props.afterStyle);
 
@@ -70,29 +70,10 @@ export default defineComponent({
       return PageIsAfterDisplayed;
     });
 
-    const pageRatio = computed(() => {
-      if (PageIsDisplayed > pageStatus.value) {
-        return 0;
-      }
-      if (pageStatus.value === PageIsDisplayed) {
-        return basePageRatio.value || 0;
-      }
-      return 100;
-    });
-    const loadingPageRatio = computed(() => {
-      if (pageStatus.value === PageIsBeforeLoading) {
-        return 0;
-      }
-      if (pageStatus.value === PageIsLoading) {
-        return basePageRatio.value || 0;
-      }
-      return 100;
-    });
-    provide("myPageRatio", pageRatio);
-    provide("myLoadingPageRatio", loadingPageRatio);
+    provide("pageRatio", pageRatio);
     provide("pageStatus", pageStatus);
 
-    const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio, loadingPageRatio);
+    const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio);
 
     const classNames = props.sticky ? "sticky" : "relative";
 
@@ -102,8 +83,6 @@ export default defineComponent({
 
       myPageNumber,
       page,
-
-      loadingPageRatio,
 
       style,
       classNames,

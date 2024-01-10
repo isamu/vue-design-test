@@ -64,10 +64,10 @@ const dynamicStyle = (styleData: any, key: string, pageRatio: number) => {
   }
   return style;
 };
-export const useStyle = (normalizedStyleData: any, pageStatus: ComputedRef<number>, pageRatio: ComputedRef<number>, loadingPageRatio: ComputedRef<number>) => {
+export const useStyle = (normalizedStyleData: any, pageStatus: ComputedRef<number>, pageRatio: ComputedRef<number>) => {
   const style = ref<{ [key: string]: string | number }>({});
   watch(
-    [pageRatio, loadingPageRatio, pageStatus],
+    [pageRatio, pageStatus],
     () => {
       style.value = {};
       if (pageStatus.value === PageIsBeforeLoading) {
@@ -77,10 +77,8 @@ export const useStyle = (normalizedStyleData: any, pageStatus: ComputedRef<numbe
       } else if (pageStatus.value === PageIsDisplayed) {
         style.value = dynamicStyle(normalizedStyleData, "animatedStyle", pageRatio.value);
       } else if (pageStatus.value === PageIsAfterDisplayed) {
-        console.log("AAA");
-        style.value = staticStyle(normalizedStyleData, "afterStyle");
-        console.log(style.value);
-      }
+         style.value = staticStyle(normalizedStyleData, "afterStyle");
+       }
     },
     { immediate: true },
   );

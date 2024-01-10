@@ -7,7 +7,10 @@
     </Page>
     <Page :sticky="true">
       <div class="relative">
-        <PageElement class="top-0 w-full absolute" :animatedStyle="{ opacity: { from: 100, to: 0 } }">
+        <PageElement class="top-0 w-full absolute"
+                     :loadingAnimatedStyle="{ opacity: { from: 50, to: 100 } }"
+                     :animatedStyle="{ opacity: { from: 100, to: 0 } }"
+                     >
           <div class="videoWrapper">
             <iframe
               width="560"

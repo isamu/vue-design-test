@@ -39,10 +39,9 @@ export default defineComponent({
   setup(props) {
     const normalizedStyleData = getNormalizedStyleData(props.beforeStyle, props.loadingAnimatedStyle, props.animatedStyle, props.afterStyle);
 
-    const pageRatio = inject("myPageRatio");
-    const myLoadingPageRatio = inject("myLoadingPageRatio");
+    const pageRatio = inject("pageRatio");
     const pageStatus = inject("pageStatus");
-    const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio, myLoadingPageRatio);
+    const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio);
 
     return {
       style,
