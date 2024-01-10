@@ -9,12 +9,7 @@
 import { defineComponent, ref, computed, onMounted, nextTick, inject, provide } from "vue";
 import { useStyle, getNormalizedStyleData } from "./useStyle";
 
-export const PageIsBeforeLoading = 10;
-export const PageIsLoading = 20;
-export const PageIsDisplayed = 30;
-export const PageIsAfterDisplayed = 40;
-
-export type PageStatus = PageIsBeforeLoading | PageIsLoading | PageIsDisplayed | PageIsAfterDisplayed;
+import { PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed } from "./type";
 
 export default defineComponent({
   name: "Page",
@@ -97,7 +92,7 @@ export default defineComponent({
     provide("myLoadingPageRatio", loadingPageRatio);
     provide("pageStatus", pageStatus);
 
-    const { style } = useStyle(pageRatio, loadingPageRatio, props.animatedStyle, props.loadingAnimatedStyle);
+    const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio, loadingPageRatio);
 
     const classNames = props.sticky ? "sticky" : "relative";
 

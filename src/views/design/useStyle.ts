@@ -1,6 +1,8 @@
 import { ref, watch, ComputedRef } from "vue";
 import { AnimatedStyle, StaticStyle, TypeData } from "./type";
 
+import { PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed } from "./type";
+
 export const isNull = <T>(value: T) => {
   return value === null || value === undefined;
 };
@@ -18,52 +20,66 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
 };
 //
 
-export const useStyle = (
-  pageRatio: ComputedRef<number>,
-  loadingPageRatio: ComputedRef<number>,
-  animatedStyle: AnimatedStyle,
-  loadingAnimatedStyle: AnimatedStyle,
-) => {
+const staticStyle = (styleData: any, key: string) => {
+  const style: any = {};
+  if (styleData.width) {
+    // 0 to 100
+    style.width = styleData.width[key] + "%";
+  }
+  if (styleData.height) {
+    style.height = styleData.height[key] + "%";
+  }
+  if (styleData.opacity !== undefined) {
+    // 0 to 1
+    style.opacity = styleData.opacity[key] / 100;
+  }
+  if (styleData.rotate && styleData.rotate[key]) {
+    style.transform = "rotate(" + 360 * styleData.rotate[key] + "deg)";
+  }
+  if (styleData.left) {
+    style.left = Math.floor(styleData.left) + "%";
+  }
+
+  return style;
+};
+
+const dynamicStyle = (styleData: any, key: string, pageRatio: number) => {
+  const style: any = {};
+  if (styleData.width) {
+    // 0 to 100
+    style.width = normalizedData(styleData.width[key], pageRatio) + "%";
+  }
+  if (styleData.height) {
+    style.height = normalizedData(styleData.height[key], pageRatio) + "%";
+  }
+  if (styleData.opacity !== undefined) {
+    // 0 to 1
+    style.opacity = normalizedData(styleData.opacity[key], pageRatio) / 100;
+  }
+  if (styleData.rotate && styleData.rotate[key]) {
+    style.transform = "rotate(" + pageRatio * 3.6 * styleData.rotate[key] + "deg)";
+  }
+  if (styleData.left) {
+    style.left = Math.floor((styleData.left[key] * pageRatio) / 100) + "%";
+  }
+  return style;
+};
+export const useStyle = (normalizedStyleData: any, pageStatus: ComputedRef<number>, pageRatio: ComputedRef<number>, loadingPageRatio: ComputedRef<number>) => {
   const style = ref<{ [key: string]: string | number }>({});
   watch(
-    [pageRatio, loadingPageRatio],
+    [pageRatio, loadingPageRatio, pageStatus],
     () => {
       style.value = {};
-      if (pageRatio.value > 0 && animatedStyle) {
-        if (animatedStyle.width) {
-          // 0 to 100
-          style.value.width = normalizedData(animatedStyle.width, pageRatio.value) + "%";
-        }
-        if (animatedStyle.height) {
-          style.value.height = normalizedData(animatedStyle.height, pageRatio.value) + "%";
-        }
-        if (animatedStyle.opacity !== undefined) {
-          // 0 to 1
-          style.value.opacity = normalizedData(animatedStyle.opacity, pageRatio.value) / 100;
-        }
-        if (animatedStyle.rotate) {
-          style.value.transform = "rotate(" + pageRatio.value * 3.6 * animatedStyle.rotate + "deg)";
-        }
-        if (animatedStyle.left) {
-          style.value.left = Math.floor((animatedStyle.left * pageRatio.value) / 100) + "%";
-        }
-      }
-      if (loadingPageRatio.value > 0 && loadingAnimatedStyle) {
-        if (loadingAnimatedStyle.width) {
-          style.value.width = loadingPageRatio.value + "%";
-        }
-        if (loadingAnimatedStyle.height) {
-          style.value.height = loadingPageRatio.value + "%";
-        }
-        if (loadingAnimatedStyle.opacity) {
-          style.value.opacity = (100 - loadingPageRatio.value) / 100;
-        }
-        if (loadingAnimatedStyle.rotate) {
-          style.value.transform = "rotate(" + loadingPageRatio.value * 3.6 * loadingAnimatedStyle.rotate + "deg)";
-        }
-        if (loadingAnimatedStyle.left) {
-          style.value.left = Math.floor((loadingAnimatedStyle.left * loadingPageRatio.value) / 100) + "%";
-        }
+      if (pageStatus.value === PageIsBeforeLoading) {
+        style.value = staticStyle(normalizedStyleData, "beforeStyle");
+      } else if (pageStatus.value === PageIsLoading) {
+        style.value = dynamicStyle(normalizedStyleData, "loadingAnimatedStyle", pageRatio.value);
+      } else if (pageStatus.value === PageIsDisplayed) {
+        style.value = dynamicStyle(normalizedStyleData, "animatedStyle", pageRatio.value);
+      } else if (pageStatus.value === PageIsAfterDisplayed) {
+        console.log("AAA");
+        style.value = staticStyle(normalizedStyleData, "afterStyle");
+        console.log(style.value);
       }
     },
     { immediate: true },

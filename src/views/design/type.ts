@@ -17,3 +17,10 @@ export type StaticStyle = {
   left?: number;
   right?: number;
 };
+
+export const PageIsBeforeLoading = 10;
+export const PageIsLoading = 20;
+export const PageIsDisplayed = 30;
+export const PageIsAfterDisplayed = 40;
+
+export const PageStatus = PageIsBeforeLoading | PageIsLoading | PageIsDisplayed | PageIsAfterDisplayed;
