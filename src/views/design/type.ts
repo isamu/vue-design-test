@@ -9,9 +9,11 @@ export type AnimatedStyle = {
   right?: number;
 };
 
-export type PageIsBeforeLoading = 10;
-export type PageIsLoading = 20;
-export type PageIsDisplayed = 30;
-export type PageIsAfterDisplayed = 40;
-
-export type PageStatus = PageIsBeforeLoading | PageIsLoading | PageIsDisplayed | PageIsAfterDisplayed;
+export type StaticStyle = {
+  width?: number;
+  height?: number;
+  opacity?: number;
+  rotate?: number;
+  left?: number;
+  right?: number;
+};

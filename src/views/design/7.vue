@@ -1,33 +1,52 @@
 <template>
   <PageSet>
     <Page class="bg-gray-200" :sticky="true">
-      <pageElement class="m-auto" :animatedStyle="{ opacity: { from: 100, to: 50 }, width: { from: 100, to: 80 } }">
+      <pageElement class="m-auto" :animatedStyle="{ opacity: { from: 100, to: 50 }, width: { from: 100, to: 80 } }" :beforeStyle="{ opacity: 50 }">
         <img src="./mj.jpg" class="w-full" />
       </pageElement>
     </Page>
     <Page :sticky="true">
-      <div>
-        <span class="text-4xl font-bold text-white"> Welcome to the era of spatial computing. </span>
-        <div class="top-0 w-full absolute videoWrapper">
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/o-0ygW-B_gI?autoplay=1&mute=1"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+      <div class="relative">
+        <PageElement class="top-0 w-full absolute" :animatedStyle="{ opacity: { from: 100, to: 0 } }">
+          <div class="videoWrapper">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/o-0ygW-B_gI?autoplay=1&mute=1"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </PageElement>
+        <div class="absolute flex items-center justify-center text-center w-full h-[100vh]">
+          <div class="m-auto">
+            <span class="text-4xl font-bold text-white"> Welcome to the era of spatial computing. </span>
+          </div>
         </div>
       </div>
+    </Page>
+    <Page class="bg-black">
+      <pageElement>
+        <div class="absolute flex items-center justify-center text-center w-full h-[100vh]">
+          <div class="m-auto">
+            <span class="text-4xl font-bold text-white"> Hello world.</span>
+          </div>
+        </div>
+      </pageElement>
     </Page>
     <Page :sticky="true">
       <PageElement :animatedStyle="{ width: 100 }" class="w-30 m-auto">
         <img src="/a.jpg" class="w-full" />
       </PageElement>
     </Page>
-    <Page :sticky="true" :animatedStyle="{ opacity: 100 }" class="bg-red-200">
-      <pageElement> 2 </pageElement>
+    <Page :sticky="true" :animatedStyle="{ opacity: 100 }" class="bg-gray-400">
+      <div class="absolute flex items-center justify-center text-center w-full h-[100vh]">
+        <div class="m-auto">
+          <span class="text-4xl font-bold text-white"> Second world. </span>
+        </div>
+      </div>
     </Page>
     <Page class="bg-black">
       <pageElement> 3 </pageElement>

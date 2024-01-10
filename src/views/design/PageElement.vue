@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
-import { useStyle } from "./useStyle";
+import { useStyle, getNormalizedStyleData } from "./useStyle";
 
 export default defineComponent({
   name: "Page",
@@ -23,8 +23,23 @@ export default defineComponent({
         return {};
       },
     },
+    beforeStyle: {
+      type: Object, // todo type
+      default: () => {
+        return {};
+      },
+    },
+    afterStyle: {
+      type: Object, // todo type
+      default: () => {
+        return {};
+      },
+    },
   },
   setup(props) {
+    const normalizedStyleData = getNormalizedStyleData(props.beforeStyle, props.loadingAnimatedStyle, props.animatedStyle, props.afterStyle);
+    console.log(normalizedStyleData);
+
     const pageRatio = inject("myPageRatio");
     const myLoadingPageRatio = inject("myLoadingPageRatio");
     const { style } = useStyle(pageRatio, myLoadingPageRatio, props.animatedStyle, props.loadingAnimatedStyle);

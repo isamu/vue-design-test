@@ -1,10 +1,14 @@
 import { ref, watch, ComputedRef } from "vue";
-import { AnimatedStyle, TypeData } from "./type";
+import { AnimatedStyle, StaticStyle, TypeData } from "./type";
+
+export const isNull = <T>(value: T) => {
+  return value === null || value === undefined;
+};
 
 // data is 0 to 100
 // offset, limit
 const normalizedData = (data: TypeData<number>, ratio: number) => {
-  if (typeof data === "object" && data.from && data.to) {
+  if (typeof data === "object" && !isNull<number>(data.from) && !isNull<number>(data.to)) {
     const a = data.from;
     const b = data.to;
     return ((b - a) * ratio + 100 * a) / 100;
@@ -12,6 +16,7 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
   // a = data, b = 0
   return ((100 - ratio) * (data as number)) / 100;
 };
+//
 
 export const useStyle = (
   pageRatio: ComputedRef<number>,
@@ -66,4 +71,68 @@ export const useStyle = (
   return {
     style,
   };
+};
+
+const defaultValues: { [key: string]: number | null } = {
+  width: 100,
+  height: 100,
+  opacity: 100,
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  rotate: null,
+};
+
+const ___get_animated_data = (data: AnimatedStyle, beforeData: number | null | StaticStyle) => {
+  if (isNull(data)) {
+    return beforeData;
+  }
+  if (typeof data === "object") {
+    return data;
+  }
+  if (beforeData === data) {
+    return data;
+  }
+  return {
+    from: beforeData,
+    to: data,
+  };
+};
+
+export const getNormalizedStyleData = (
+  beforeStyle: { [key: string]: StaticStyle },
+  loadingAnimatedStyle: { [key: string]: AnimatedStyle },
+  animatedStyle: { [key: string]: AnimatedStyle },
+  afterStyle: { [key: string]: StaticStyle },
+) => {
+  const keys = Object.keys({ ...beforeStyle, ...loadingAnimatedStyle, ...animatedStyle, ...afterStyle });
+  return keys.reduce((tmp: { [key: string]: any }, key: string) => {
+    if (key === "rotate") {
+      tmp[key] = {
+        beforeStyle: beforeStyle[key],
+        loadingAnimatedStyle: loadingAnimatedStyle[key],
+        animatedStyle: animatedStyle[key],
+        afterStyle: afterStyle[key],
+      };
+    } else {
+      const defaultValue = defaultValues[key];
+      const beforeData = isNull(beforeStyle[key]) ? defaultValue : beforeStyle[key];
+      const loadingData = ___get_animated_data(loadingAnimatedStyle[key], beforeData);
+      // @ts-ignore
+      const __a = typeof loadingData === "object" ? loadingData?.to : loadingData;
+      const animatedData = ___get_animated_data(animatedStyle[key], __a);
+      // @ts-ignore
+      const __b = typeof animatedData === "object" ? animatedData?.to : animatedData;
+      const afterData = isNull(afterStyle[key]) ? __b : afterStyle[key];
+
+      tmp[key] = {
+        beforeStyle: beforeData,
+        loadingAnimatedStyle: loadingData,
+        animatedStyle: animatedData,
+        afterStyle: afterData,
+      };
+    }
+    return tmp;
+  }, {});
 };
