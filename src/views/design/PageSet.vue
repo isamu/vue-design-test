@@ -22,11 +22,16 @@ export default defineComponent({
     provide("currentPage", currentPage);
     provide("pageRatio", pageRatio);
 
+    let positions: number[] = [];
+    let pagesHeight: number[] = [];
     const showScrollTop = () => {
-      const pageHeight = main.value.getBoundingClientRect().height / slot.length;
       const pageTop = -main.value.getBoundingClientRect().top;
-      currentPage.value = Math.floor(pageTop / pageHeight);
 
+      currentPage.value = Array.from(positions.keys()).find((key) => {
+        return positions[key] > pageTop;
+      });
+
+      const pageHeight = pagesHeight[currentPage.value];
       posInPage.value = Math.floor(pageTop % pageHeight);
       pageRatio.value = (100 * posInPage.value) / pageHeight;
       // console.log(pageTop, pageHeight, currentPage.value, Math.floor(pageRatio.value));
@@ -38,6 +43,15 @@ export default defineComponent({
       Array.from(instance.vnode.el.children).map((a, k) => {
         a.dataset["index"] = k;
       });
+
+      pagesHeight = Array.from(main.value.children).map((child) => {
+        return child.getBoundingClientRect().height;
+      });
+      positions = pagesHeight.reduce((current, height) => {
+        const nextPos = (current.length === 0 ? 0 : current[current.length - 1]) + height;
+        current.push(nextPos);
+        return current;
+      }, []);
 
       window.addEventListener("scroll", showScrollTop);
     });
