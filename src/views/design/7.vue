@@ -59,7 +59,7 @@
       <pageElement> 2 </pageElement>
     </Page>
     <Page :sticky="true">
-      <PageElement :animatedStyle="{ rotate: 5 }" class="w-1/4 m-auto">
+      <PageElement :animatedStyle="{ rotate: 500 }" class="w-1/4 m-auto">
         <img src="/a.jpg" class="w-full" />
       </PageElement>
     </Page>
@@ -123,7 +123,7 @@ export default defineComponent({
     return {
       startDataSet,
       style3: {
-        rotate: 5,
+        rotate: 500,
         scale: {
           from: [100, 200],
           to: [200, 400],

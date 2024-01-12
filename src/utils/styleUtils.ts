@@ -13,8 +13,6 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
     return ((b - a) * ratio + 100 * a) / 100;
   }
   return data as number;
-  // a = data, b = 0
-  // return ((100 - ratio) * (data as number)) / 100;
 };
 
 const normalizedDataArray = (data: TypeData<number[]>, ratio: number) => {
@@ -26,8 +24,6 @@ const normalizedDataArray = (data: TypeData<number[]>, ratio: number) => {
     });
   }
   return data as number[];
-  // a = data, b = 0
-  // return ((100 - ratio) * (data as number)) / 100;
 };
 //
 
@@ -52,9 +48,9 @@ export const dynamicStyle = (styleData: any, key: string, pageRatio: number) => 
     transforms.push("scale(" + scale.join(", ") + ")");
   }
   // rotate3d
-
   if (styleData.rotate && styleData.rotate[key]) {
-    transforms.push("rotate(" + pageRatio * 3.6 * styleData.rotate[key] + "deg)");
+    const rotate = normalizedData(styleData.rotate[key], pageRatio) * 3.6;
+    transforms.push("rotate(" + rotate + "deg)");
     // style.rotate = "1 3 1 " + pageRatio * 3.6 * styleData.rotate[key] + "deg"
   }
   if (styleData.left) {
@@ -64,7 +60,6 @@ export const dynamicStyle = (styleData: any, key: string, pageRatio: number) => 
     style.top = Math.floor(normalizedData(styleData.top[key], pageRatio)) + "%";
   }
   if (transforms.length > 0) {
-    // console.log( transforms.join(" "));
     style.transform = transforms.join(" ");
   }
   return style;
@@ -79,7 +74,7 @@ const defaultValues: { [key: string]: number | number[] | null } = {
   right: 0,
   top: 0,
   bottom: 0,
-  rotate: null,
+  rotate: 0,
   // rotate3d
 };
 
@@ -159,34 +154,26 @@ export const getNormalizedStyleData = (
 ) => {
   const keys = Object.keys({ ...beforeStyle, ...loadingAnimatedStyle, ...animatedStyle, ...afterStyle });
   return keys.reduce((tmp: { [key: string]: any }, key: string) => {
-    if (key === "rotate") {
-      tmp[key] = {
-        beforeStyle: beforeStyle[key],
-        loadingAnimatedStyle: loadingAnimatedStyle[key],
-        animatedStyle: animatedStyle[key],
-        afterStyle: afterStyle[key],
-      };
-    } else {
-      const type_is_array_data = key === "scale";
+    const type_is_array_data = key === "scale";
 
-      const defaultValue = defaultValues[key];
-      const beforeData = isNull(beforeStyle[key]) ? defaultValue : beforeStyle[key];
-      const loadingData = (type_is_array_data ? ___get_animated_array_data : ___get_animated_data)(loadingAnimatedStyle[key], beforeData, key);
-      // console.log(loadingData);
-      // @ts-ignore
-      const __a = typeof loadingData === "object" ? loadingData?.to : loadingData;
-      const animatedData = (type_is_array_data ? ___get_animated_array_data : ___get_animated_data)(animatedStyle[key], __a, key);
-      // @ts-ignore
-      const __b = typeof animatedData === "object" ? animatedData?.to : animatedData;
-      const afterData = isNull(afterStyle[key]) ? __b : afterStyle[key];
-
-      tmp[key] = {
-        beforeStyle: beforeData,
-        loadingAnimatedStyle: loadingData,
-        animatedStyle: animatedData,
-        afterStyle: afterData,
-      };
-    }
+    const defaultValue = defaultValues[key];
+    const beforeData = isNull(beforeStyle[key]) ? defaultValue : beforeStyle[key];
+    const loadingData = (type_is_array_data ? ___get_animated_array_data : ___get_animated_data)(loadingAnimatedStyle[key], beforeData, key);
+    // console.log(loadingData);
+    // @ts-ignore
+    const __a = typeof loadingData === "object" ? loadingData?.to : loadingData;
+    const animatedData = (type_is_array_data ? ___get_animated_array_data : ___get_animated_data)(animatedStyle[key], __a, key);
+    // @ts-ignore
+    const __b = typeof animatedData === "object" ? animatedData?.to : animatedData;
+    const afterData = isNull(afterStyle[key]) ? __b : afterStyle[key];
+    
+    tmp[key] = {
+      beforeStyle: beforeData,
+      loadingAnimatedStyle: loadingData,
+      animatedStyle: animatedData,
+      afterStyle: afterData,
+    };
+    // console.log(tmp);
     return tmp;
   }, {});
 };
