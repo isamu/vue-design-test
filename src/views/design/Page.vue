@@ -8,9 +8,9 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, nextTick, inject, provide } from "vue";
 import { useStyle } from "./useStyle";
-import { getNormalizedStyleData } from "./styleUtils";
+import { getNormalizedStyleData } from "../../utils//styleUtils";
 
-import { PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed } from "./type";
+import { PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed } from "../../utils/type";
 
 export default defineComponent({
   name: "Page",
