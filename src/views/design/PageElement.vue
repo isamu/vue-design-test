@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
-import { useStyle} from "./useStyle";
-import { getNormalizedStyleData } from "../../utils//styleUtils";
+import { useStyle } from "./useStyle";
+import { getNormalizedStyleData } from "../../utils/styleUtils";
 
 export default defineComponent({
   name: "Page",

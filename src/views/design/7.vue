@@ -123,9 +123,10 @@ export default defineComponent({
     return {
       startDataSet,
       style3: {
+        rotate: 5,
         scale: {
-          from: 100,
-          to: 200,
+          from: [100, 200],
+          to: [200, 400],
         },
       },
     };

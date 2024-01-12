@@ -1,8 +1,5 @@
 import { ref, watch, ComputedRef } from "vue";
-import {
-  AnimatedStyle, StaticStyle, TypeData,   
-  PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed
-} from "../../utils/type";
+import { AnimatedStyle, StaticStyle, TypeData, PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed } from "../../utils/type";
 
 import { dynamicStyle } from "../../utils/styleUtils";
 

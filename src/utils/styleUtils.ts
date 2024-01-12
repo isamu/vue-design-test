@@ -16,12 +16,23 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
   // a = data, b = 0
   // return ((100 - ratio) * (data as number)) / 100;
 };
+
+const normalizedDataArray = (data: TypeData<number[]>, ratio: number) => {
+  if (typeof data === "object" && !Array.isArray(data) && !isNull<number[]>(data.from) && !isNull<number[]>(data.to)) {
+    return Array.from(data.from.keys()).map((key) => {
+      const a = data.from[key];
+      const b = data.to[key];
+      return ((b - a) * ratio + 100 * a) / 100;
+    });
+  }
+  return data as number[];
+  // a = data, b = 0
+  // return ((100 - ratio) * (data as number)) / 100;
+};
 //
 
 // rotate
 // scale
-// translate
-
 export const dynamicStyle = (styleData: any, key: string, pageRatio: number) => {
   const style: any = {};
   const transforms: string[] = [];
@@ -37,12 +48,14 @@ export const dynamicStyle = (styleData: any, key: string, pageRatio: number) => 
     style.opacity = normalizedData(styleData.opacity[key], pageRatio) / 100;
   }
   if (styleData.scale !== undefined) {
-    const scale = normalizedData(styleData.scale[key], pageRatio) / 100;
-    console.log(styleData.scale[key], scale);
-    transforms.push("scale(" + scale + ")");
+    const scale = normalizedDataArray(styleData.scale[key], pageRatio).map((a) => a / 100);
+    transforms.push("scale(" + scale.join(", ") + ")");
   }
+  // rotate3d
+
   if (styleData.rotate && styleData.rotate[key]) {
     transforms.push("rotate(" + pageRatio * 3.6 * styleData.rotate[key] + "deg)");
+    // style.rotate = "1 3 1 " + pageRatio * 3.6 * styleData.rotate[key] + "deg"
   }
   if (styleData.left) {
     style.left = Math.floor(normalizedData(styleData.left[key], pageRatio)) + "%";
@@ -51,29 +64,30 @@ export const dynamicStyle = (styleData: any, key: string, pageRatio: number) => 
     style.top = Math.floor(normalizedData(styleData.top[key], pageRatio)) + "%";
   }
   if (transforms.length > 0) {
-    console.log( transforms.join(" "));
+    // console.log( transforms.join(" "));
     style.transform = transforms.join(" ");
   }
   return style;
 };
 
-
-const defaultValues: { [key: string]: number | null } = {
+const defaultValues: { [key: string]: number | number[] | null } = {
   width: 100,
   height: 100,
   opacity: 100,
-  scale: 100,
+  scale: [100, 100],
   left: 0,
   right: 0,
   top: 0,
   bottom: 0,
   rotate: null,
+  // rotate3d
 };
 
-const ___get_animated_data = (data: AnimatedStyle, beforeData: number | null | StaticStyle) => {
+const ___get_animated_data = (data: AnimatedStyle, beforeData: number | number[] | null | StaticStyle, key = "") => {
   if (isNull(data)) {
     return beforeData;
   }
+  // Array.isArray([])
   if (typeof data === "object") {
     return data;
   }
@@ -84,6 +98,57 @@ const ___get_animated_data = (data: AnimatedStyle, beforeData: number | null | S
     from: beforeData,
     to: data,
   };
+};
+
+// null,
+// number
+// number[]
+// {from: number, to: number}
+// {from: number[], to: number[]}
+const arraySizeData: { [key: string]: number } = {
+  rotate3d: 4,
+  scale: 2,
+};
+const ___get_animated_array_data = (data: AnimatedStyle | any, beforeData: number | number[] | null | StaticStyle, dataKey: string) => {
+  const arraySize = arraySizeData[dataKey];
+
+  // null,
+  if (isNull(data)) {
+    return beforeData;
+  }
+
+  // {from: number, to: number}
+  // {from: number[], to: number[]}
+  if (typeof data === "object" && !Array.isArray(data)) {
+    if (!Array.isArray(data.from)) {
+      data.from = Array.from(Array(arraySize)).map(() => {
+        return data.from;
+      });
+    }
+    if (!Array.isArray(data.to)) {
+      data.to = Array.from(Array(arraySize)).map(() => {
+        return data.to;
+      });
+    }
+    return data;
+  }
+
+  // number[]
+  if (Array.isArray(data) && Array.isArray(beforeData)) {
+    const isNotUpdate = Array.from(data.keys()).every((key) => {
+      return data[key] === beforeData[key];
+    });
+    if (isNotUpdate) {
+      return data;
+    }
+    return {
+      from: beforeData,
+      to: data,
+    };
+  }
+  return Array.from(Array(arraySize)).map(() => {
+    return data;
+  });
 };
 
 export const getNormalizedStyleData = (
@@ -102,12 +167,15 @@ export const getNormalizedStyleData = (
         afterStyle: afterStyle[key],
       };
     } else {
+      const type_is_array_data = key === "scale";
+
       const defaultValue = defaultValues[key];
       const beforeData = isNull(beforeStyle[key]) ? defaultValue : beforeStyle[key];
-      const loadingData = ___get_animated_data(loadingAnimatedStyle[key], beforeData);
+      const loadingData = (type_is_array_data ? ___get_animated_array_data : ___get_animated_data)(loadingAnimatedStyle[key], beforeData, key);
+      // console.log(loadingData);
       // @ts-ignore
       const __a = typeof loadingData === "object" ? loadingData?.to : loadingData;
-      const animatedData = ___get_animated_data(animatedStyle[key], __a);
+      const animatedData = (type_is_array_data ? ___get_animated_array_data : ___get_animated_data)(animatedStyle[key], __a, key);
       // @ts-ignore
       const __b = typeof animatedData === "object" ? animatedData?.to : animatedData;
       const afterData = isNull(afterStyle[key]) ? __b : afterStyle[key];
@@ -122,4 +190,3 @@ export const getNormalizedStyleData = (
     return tmp;
   }, {});
 };
-
