@@ -1,13 +1,14 @@
 <template>
   <div class="top-0" ref="page" :style="style" :class="classNames">
-    <span v-if="true"> {{ currentPage }} // {{ myPageNumber }} // {{ pageRatio }} </span>
+    <span v-if="false"> {{ currentPage }} // {{ myPageNumber }} // {{ pageRatio }} </span>
     <slot />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted, nextTick, inject, provide } from "vue";
-import { useStyle, getNormalizedStyleData } from "./useStyle";
+import { useStyle } from "./useStyle";
+import { getNormalizedStyleData } from "./styleUtils";
 
 import { PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIsAfterDisplayed } from "./type";
 
