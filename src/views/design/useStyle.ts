@@ -21,28 +21,9 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
 };
 //
 
-const staticStyle = (styleData: any, key: string) => {
-  const style: any = {};
-  if (styleData.width) {
-    // 0 to 100
-    style.width = styleData.width[key] + "%";
-  }
-  if (styleData.height) {
-    style.height = styleData.height[key] + "%";
-  }
-  if (styleData.opacity !== undefined) {
-    // 0 to 1
-    style.opacity = styleData.opacity[key] / 100;
-  }
-  if (styleData.rotate && styleData.rotate[key]) {
-    style.transform = "rotate(" + 360 * styleData.rotate[key] + "deg)";
-  }
-  if (styleData.left) {
-    style.left = Math.floor(styleData.left[key]) + "%";
-  }
-
-  return style;
-};
+// rotate
+// scale
+// ranslate
 
 const dynamicStyle = (styleData: any, key: string, pageRatio: number) => {
   const style: any = {};

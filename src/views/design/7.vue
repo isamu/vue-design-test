@@ -52,7 +52,7 @@
         </div>
       </div>
     </Page>
-    <Page class="bg-black">
+    <Page class="bg-black" height="h-[50vh]" :sticky="true">
       <pageElement> 3 </pageElement>
     </Page>
     <Page class="bg-gray-200" :sticky="true">

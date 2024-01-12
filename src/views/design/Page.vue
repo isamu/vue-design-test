@@ -1,6 +1,6 @@
 <template>
-  <div class="top-0 h-[100vh]" ref="page" :style="style" :class="classNames">
-    <span v-if="false"> {{ currentPage }} // {{ myPageNumber }} // {{ pageRatio }} </span>
+  <div class="top-0" ref="page" :style="style" :class="classNames">
+    <span v-if="true"> {{ currentPage }} // {{ myPageNumber }} // {{ pageRatio }} </span>
     <slot />
   </div>
 </template>
@@ -14,6 +14,10 @@ import { PageStatus, PageIsBeforeLoading, PageIsLoading, PageIsDisplayed, PageIs
 export default defineComponent({
   name: "Page",
   props: {
+    height: {
+      type: String,
+      default: "h-[100vh]",
+    },
     animatedStyle: {
       type: Object, // todo type
       default: () => {
@@ -75,7 +79,7 @@ export default defineComponent({
 
     const { style } = useStyle(normalizedStyleData, pageStatus, pageRatio);
 
-    const classNames = props.sticky ? "sticky" : "relative";
+    const classNames = [props.sticky ? "sticky" : "relative", props.height];
 
     return {
       currentPage,
@@ -85,7 +89,7 @@ export default defineComponent({
       page,
 
       style,
-      classNames,
+      classNames: classNames.join(" "),
     };
   },
 });

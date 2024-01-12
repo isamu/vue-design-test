@@ -23,6 +23,7 @@ export default defineComponent({
     provide("pageRatio", pageRatio);
 
     let positions: number[] = [];
+    let tops: number[] = [];
     let pagesHeight: number[] = [];
     const showScrollTop = () => {
       const pageTop = -main.value.getBoundingClientRect().top;
@@ -32,9 +33,8 @@ export default defineComponent({
       });
 
       const pageHeight = pagesHeight[currentPage.value];
-      posInPage.value = Math.floor(pageTop % pageHeight);
+      posInPage.value = pageTop - tops[currentPage.value];
       pageRatio.value = (100 * posInPage.value) / pageHeight;
-      // console.log(pageTop, pageHeight, currentPage.value, Math.floor(pageRatio.value));
     };
 
     onMounted(() => {
@@ -47,6 +47,13 @@ export default defineComponent({
       pagesHeight = Array.from(main.value.children).map((child) => {
         return child.getBoundingClientRect().height;
       });
+      tops = [0];
+      pagesHeight.reduce((top, pageHeight) => {
+        const current = top + pageHeight;
+        tops.push(current);
+        return current;
+      }, 0);
+
       positions = pagesHeight.reduce((current, height) => {
         const nextPos = (current.length === 0 ? 0 : current[current.length - 1]) + height;
         current.push(nextPos);
