@@ -59,7 +59,7 @@
       <pageElement> 2 </pageElement>
     </Page>
     <Page :sticky="true">
-      <PageElement :animatedStyle="{ rotate: 500 }" class="w-1/4 m-auto">
+      <PageElement :animatedStyle="{ rotate3d: [500, 200, 400, 300] }" class="w-1/4 m-auto">
         <img src="/a.jpg" class="w-full" />
       </PageElement>
     </Page>
