@@ -22,6 +22,24 @@ export default defineComponent({
     provide("currentPage", currentPage);
     provide("pageRatio", pageRatio);
 
+    let prevPos = 0;
+    let auto_scroll = false;
+    const scroll_end_event = () => {
+      const currentTop = -main.value.getBoundingClientRect().top;
+
+      const next = currentTop - prevPos > 0 ? currentPage.value : currentPage.value - 1;
+      if (!auto_scroll && positions[next]) {
+        auto_scroll = true;
+        window.scrollTo({
+          top: positions[next],
+          behavior: "smooth",
+        });
+      } else {
+        auto_scroll = false;
+      }
+      prevPos = currentTop;
+    };
+
     let positions: number[] = [];
     let tops: number[] = [];
     let pagesHeight: number[] = [];
@@ -61,6 +79,12 @@ export default defineComponent({
       }, []);
 
       window.addEventListener("scroll", showScrollTop);
+
+      const scroll_event = "onwheel" in document ? "wheel" : "onmousewheel" in document ? "mousewheel" : "DOMMouseScroll";
+      window.addEventListener("scrollend", scroll_end_event);
+      window.addEventListener("touchend", scroll_end_event);
+      // window.addEventListener("touchstart", () => { console.log("touchstart") });
+      // window.addEventListener("touchmove.noScroll", () => { console.log("scroll") });
     });
 
     return {
