@@ -31,6 +31,10 @@
         </div>
       </div>
     </Page>
+    <Page :sticky="true">
+      <VideoElement type="video/mp4" src="/2.qt" class="w-full" />
+    </Page>
+    <Page />
     <Page class="bg-black">
       <pageElement>
         <div class="absolute flex items-center justify-center text-center w-full h-[100vh]">
@@ -97,12 +101,14 @@ import { defineComponent } from "vue";
 import PageSet from "./PageSet.vue";
 import Page from "./Page.vue";
 import PageElement from "./PageElement.vue";
+import VideoElement from "./VideoElement.vue";
 
 export default defineComponent({
   components: {
     PageSet,
     Page,
     PageElement,
+    VideoElement,
   },
   setup() {
     const startDataSet = [...Array(50).keys()].map(() => {

@@ -17,7 +17,7 @@ const normalizedData = (data: TypeData<number>, ratio: number) => {
 
 const normalizedDataArray = (data: TypeData<number[]>, ratio: number) => {
   // @ts-ignore
-  console.log(typeof data === "object", !Array.isArray(data), !isNull<number[]>(data.from), !isNull<number[]>(data.to));
+  // console.log(typeof data === "object", !Array.isArray(data), !isNull<number[]>(data.from), !isNull<number[]>(data.to));
 
   if (typeof data === "object" && !Array.isArray(data) && !isNull<number[]>(data.from) && !isNull<number[]>(data.to)) {
     return Array.from(data.from.keys()).map((key) => {
@@ -133,7 +133,7 @@ const ___get_animated_array_data = (data: AnimatedStyle | any, beforeData: numbe
   }
 
   // number[]
-  console.log(data, beforeData);
+  // console.log(data, beforeData);
   if (Array.isArray(data) && Array.isArray(beforeData)) {
     const isNotUpdate = Array.from(data.keys()).every((key) => {
       return data[key] === beforeData[key];
